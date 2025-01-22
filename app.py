@@ -7,7 +7,7 @@ import numpy as np
 from PIL import Image
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
-
+import gdown
 
 
 app = Flask(__name__)
@@ -230,10 +230,14 @@ def update_patient_details(patient_id, name, age, gender, organ, disease,disease
 # Define constants
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
-# Load the trained model
-lung_model = tf.keras.models.load_model('lung_disease_classification_model.h5')
-# Load the trained model
-brain_model = load_model('brain_image_classification_model.h5')
+# Replace with the correct file ID
+brain_model_url = 'https://drive.google.com/uc?id=1-ssxqMIab7dpnXJV6npeYD5wDcjQp2k_'
+
+# Download the model from Google Drive
+gdown.download(brain_model_url, 'brain_image_classification_model.h5', quiet=False)
+
+# Load the model after download
+brain_model = tf.keras.models.load_model('brain_image_classification_model.h5')
 
 # Define a route for the disease detection page
 @app.route('/disease_detection', methods=['GET', 'POST'])
@@ -248,6 +252,15 @@ def disease_detection():
         # Check if user data exists
         if user:
             return render_template('disease_detection.html', user=user)
+
+# Replace with the correct file ID
+lung_model_url = 'https://drive.google.com/uc?id=1PvMjdFfokfhWabzmkrL4Czzt5HqZKrm_'
+
+# Download the model from Google Drive
+gdown.download(lung_model_url, 'lung_disease_classification_model.h5', quiet=False)
+
+# Load the model after download
+lung_model = tf.keras.models.load_model('lung_disease_classification_model.h5')
 
 @app.route('/lung_disease_detection', methods=['GET', 'POST'])
 def lung_disease_detection():
@@ -305,8 +318,14 @@ def brain_disease_detection():
     else:
         return render_template('brain_disease_detection.html')
 
-# Load the trained model
-skin_model = load_model('skin_disease_classification_model.h5')
+# Replace with the correct file ID
+skin_model_url = 'https://drive.google.com/uc?id=1OEQXKp7e7O_D3zGCOJ-L-Xu5COgvJAAU'
+
+# Download the model from Google Drive
+gdown.download(skin_model_url, 'skin_disease_classification_model.h5', quiet=False)
+
+# Load the skin model after download
+skin_model = tf.keras.models.load_model('skin_disease_classification_model.h5')
 
 @app.route('/skin_disease_detection', methods=['GET', 'POST'])
 def skin_disease_detection():
